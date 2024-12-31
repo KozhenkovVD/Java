@@ -1,5 +1,6 @@
 package homeworks.homework05;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Television {
@@ -8,17 +9,34 @@ public class Television {
     private String model;
     private Integer diagonal;
     private Float price;
-    private Integer chanel;
+    private Chanel chanel;
     private Integer volume;
     private Boolean isActive;
 
 
 
-    public Television(String producer, Integer chanel, Integer volume, Boolean isActive) {
+
+    public Television(String producer, Integer volume, Boolean isActive) {
         this.producer = producer;
-        this.chanel = chanel;
         this.volume = volume;
         this.isActive = isActive;
+    }
+
+    public Television(String lg, int volume, boolean isActive, int i) {
+    }
+
+    public void TurnOnOff(String on_off) {
+        if (on_off == "on") {
+            this.isActive = true;
+        } else if (on_off == "off") {
+            this.isActive = false;
+
+        } else System.out.println("Неверно введено значение");
+    }
+
+
+    public void changeChanel(Chanel chanelNumber) {
+        this.chanel = chanelNumber;
     }
 
 
@@ -55,10 +73,10 @@ public class Television {
     }
 
     public Integer getChanel() {
-        return chanel;
+        return chanel.getNumber();
     }
 
-    public void setChanel(Integer chanel) {
+    public void setChanel(Chanel chanel) {
         this.chanel = chanel;
     }
 
