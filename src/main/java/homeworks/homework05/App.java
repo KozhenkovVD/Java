@@ -39,8 +39,30 @@ public class App {
         Comparator <Television> orderByChanel = Comparator.comparing(Television::getChanel);
         Arrays.sort(televisions, orderByChanel);
 
+        for (int i = 0; i< televisions.length; i++) {
+            System.out.println(televisions[i].toString());
+
+        }
+
+        Integer channel;
+        System.out.println("Введите новый канал телевизора LG");
+        channel = scanner1.nextInt();
+        televisions[0].changeChanel(channel);
+
+
+
+        String isActive;
+        System.out.println("Включить или выключить телевизора LG (введите on/off)");
+        isActive = scanner1.next();
+        televisions[0].TurnOnOff(isActive);
+
+
+
+
         Integer maxVolume;
         System.out.println("Введите максимальную громкость (целое число в диапазоне 50-70)");
+
+
 
 
         do {
@@ -54,5 +76,19 @@ public class App {
             if (televisions[i].getActive() == true && televisions[i].getVolume() <= maxVolume)
             {System.out.println(televisions[i].toString());}
         }
+
+        System.out.println("Новые классы Channel и Program");
+        Channel channel1 = new Channel("Первый канал", 1);
+        Program program1 = new Program("Новости", 80, 5000);
+
+        System.out.println(channel1);
+        System.out.println(program1);
+
+        channel1.changeName("MTV");
+        program1.changeRating(10);
+
+        System.out.println(channel1);
+        System.out.println(program1);
+
     }
 }

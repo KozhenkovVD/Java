@@ -1,5 +1,8 @@
 package homeworks.homework05;
 
+import homeworks.homework06.Product;
+
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Television {
@@ -8,19 +11,32 @@ public class Television {
     private String model;
     private Integer diagonal;
     private Float price;
-    private Integer chanel;
+    private Integer channel;
     private Integer volume;
     private Boolean isActive;
+    private ArrayList<Channel> channelList = new ArrayList<Channel>();
 
 
 
-    public Television(String producer, Integer chanel, Integer volume, Boolean isActive) {
+    public Television(String producer, Integer channel, Integer volume, Boolean isActive) {
         this.producer = producer;
-        this.chanel = chanel;
+        this.channel = channel;
         this.volume = volume;
         this.isActive = isActive;
     }
 
+    public void TurnOnOff(String on_off) {
+        if (Objects.equals(on_off, "on")) {
+            this.isActive = true;
+        } else if (Objects.equals(on_off, "off")) {
+            this.isActive = false;
+
+        } else System.out.println("Неверно введено значение");
+    }
+
+    public void changeChanel(Integer channelNumber) {
+        this.channel = channelNumber;
+    }
 
     public String getProducer() {
         return producer;
@@ -55,11 +71,11 @@ public class Television {
     }
 
     public Integer getChanel() {
-        return chanel;
+        return channel;
     }
 
-    public void setChanel(Integer chanel) {
-        this.chanel = chanel;
+    public void setChanel(Integer channel) {
+        this.channel = channel;
     }
 
     public Integer getVolume() {
@@ -85,9 +101,10 @@ public class Television {
                 ", model='" + model + '\'' +
                 ", diagonal=" + diagonal +
                 ", price=" + price +
-                ", chanel=" + chanel +
+                ", channel=" + channel +
                 ", volume=" + volume +
                 ", isActive=" + isActive +
+                ", channelList=" + channelList +
                 '}';
     }
 
@@ -96,14 +113,11 @@ public class Television {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Television that = (Television) o;
-        return Objects.equals(producer, that.producer) && Objects.equals(model, that.model) && Objects.equals(diagonal, that.diagonal) && Objects.equals(price, that.price) && Objects.equals(chanel, that.chanel) && Objects.equals(volume, that.volume) && Objects.equals(isActive, that.isActive);
+        return Objects.equals(producer, that.producer) && Objects.equals(model, that.model) && Objects.equals(diagonal, that.diagonal) && Objects.equals(price, that.price) && Objects.equals(channel, that.channel) && Objects.equals(volume, that.volume) && Objects.equals(isActive, that.isActive) && Objects.equals(channelList, that.channelList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(producer, model, diagonal, price, chanel, volume, isActive);
+        return Objects.hash(producer, model, diagonal, price, channel, volume, isActive, channelList);
     }
-
-
-
 }
