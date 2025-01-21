@@ -1,13 +1,14 @@
 package homeworks.homework06;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
 public class Person {
     private String name;
     private double balance;
-    private ArrayList<Product> basket = new ArrayList<Product>();
+    private List<Product> basket = new ArrayList<Product>();
     ;
 
     public Person(String name, double balance) {
