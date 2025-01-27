@@ -1,0 +1,9 @@
+Car, BMW, 5, 2020, 200, 7, 100, 10
+PerformanceCar, AUDI, A5, 2010, 250, 10, 150, 10
+Car, Porsche, 911, 1980, 200, 5, 80, 5
+ShowCar, Ferrari, F40, 1989, 478, 6, 50, 15
+CasualRace, 100, Rome, 10000
+DragRace, 1, Moscow, 1000
+DriftRace, 10, Tokyo, 100
+TimeLimitRace, 15, Paris, 15000, 65
+CircuitRace, 25, Berlin, 15000, 100

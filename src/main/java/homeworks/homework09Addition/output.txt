@@ -1,0 +1,6 @@
+Car{brand='BMW', model='5', year=2020, horsepower=200, acceleration=7, suspension=100, durability=10}
+PerformanceCar{brand='AUDI', model='A5', year=2010, horsepower=375, acceleration=10, suspension=112, durability=10, addOns=[]}
+Car{brand='Porsche', model='911', year=1980, horsepower=200, acceleration=5, suspension=80, durability=5}
+ShowCar{brand='Ferrari', model='F40', year=1989, horsepower=478, acceleration=6, suspension=50, durability=15, star=0}
+
+CasualRace{length=100, route=Rome, prize=10000, participant=[]}DragRace{length=1, route=Moscow, prize=1000, participant=[]}DriftRace{length=10, route=Tokyo, prize=100, participant=[]}TimeLimitRace{length=15, route=Paris, prize=15000, participant=[], goldTime=65}CircuitRace{length=25, route=Berlin, prize=15000, participant=[], laps=100}
