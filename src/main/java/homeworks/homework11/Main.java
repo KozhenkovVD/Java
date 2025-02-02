@@ -3,7 +3,7 @@ package homeworks.homework11;
 
 import java.util.*;
 
-public class App {
+public class Main {
     public static void main(String[] args) {
         List<Car> carList = new ArrayList<Car>();
         Scanner scanner = new Scanner(System.in);
