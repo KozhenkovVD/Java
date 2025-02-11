@@ -39,7 +39,7 @@ public class Garage {
     public void addModification(String brand, String model, String addon) {
         for (Car i : parkedCars) {
             if (i instanceof PerformanceCar && i.getBrand().equals(brand) && i.getModel().equals(model)) {
-                ((PerformanceCar) i).AddAddon(addon);
+                ((PerformanceCar) i).addAddon(addon);
             }
         }
     }
