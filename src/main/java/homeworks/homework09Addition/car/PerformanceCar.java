@@ -14,7 +14,7 @@ public class PerformanceCar extends Car {
     public PerformanceCar() {
     }
 
-    public void AddAddon (String addon) {
+    public void addAddon (String addon) {
         this.addons.add(addon);
     }
 
