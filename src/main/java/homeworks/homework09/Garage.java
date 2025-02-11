@@ -10,11 +10,11 @@ import java.util.StringJoiner;
 public class Garage {
     private List<Car> parkedCars = new ArrayList<Car>();
 
-    public void AddCarToGarage(Car car) {
+    public void addCarToGarage(Car car) {
         this.parkedCars.add(car);
     };
 
-    public void RemoveCarFromGarage (String brand, String model) {
+    public void removeCarFromGarage (String brand, String model) {
         //parkedCars.remove(1);
         for (Car i : parkedCars) {
             if (i.getBrand().equals(brand) && i.getModel().equals(model)) {
@@ -28,7 +28,7 @@ public class Garage {
 //    public List<Car> GetCarFromGarage(){
 //        return (this.parkedCars);
 //    }
-    public String GetCarFromGarage() {
+    public String getCarFromGarage() {
         StringJoiner str = new StringJoiner("");
         for (Car i : this.parkedCars) {
             str.add(i + "\r\n");
@@ -36,7 +36,7 @@ public class Garage {
         return (str.toString());
     }
 
-    public void AddModification(String brand, String model, String addon) {
+    public void addModification(String brand, String model, String addon) {
         for (Car i : parkedCars) {
             if (i instanceof PerformanceCar && i.getBrand().equals(brand) && i.getModel().equals(model)) {
                 ((PerformanceCar) i).AddAddon(addon);

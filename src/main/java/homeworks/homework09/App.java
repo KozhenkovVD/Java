@@ -19,14 +19,14 @@ public class App {
     public static void main(String[] args) {
         Garage garage = new Garage();
         List<Race> raceList = new ArrayList<Race>();
-        garage.AddCarToGarage(new ShowCar("BMW", "5", 2020, 200, 7, 100, 10));
-        garage.AddCarToGarage(new PerformanceCar("AUDI", "A5", 210, 250, 10, 150, 10));
-        garage.AddCarToGarage(new Car("Porsche", "911", 1980, 200, 5, 80, 5));
-        System.out.println(garage.GetCarFromGarage());
+        garage.addCarToGarage(new ShowCar("BMW", "5", 2020, 200, 7, 100, 10));
+        garage.addCarToGarage(new PerformanceCar("AUDI", "A5", 210, 250, 10, 150, 10));
+        garage.addCarToGarage(new Car("Porsche", "911", 1980, 200, 5, 80, 5));
+        System.out.println(garage.getCarFromGarage());
 
-        garage.AddModification("AUDI", "A5", "Шины");
-        garage.RemoveCarFromGarage("Porsche", "911");
-        System.out.println(garage.GetCarFromGarage());
+        garage.addModification("AUDI", "A5", "Шины");
+        garage.removeCarFromGarage("Porsche", "911");
+        System.out.println(garage.getCarFromGarage());
 
 
 
