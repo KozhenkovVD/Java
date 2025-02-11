@@ -62,11 +62,11 @@ public class App {
                 }
 
                 if (typeLine.equals("ShowCar")) {
-                    garage.AddCarToGarage(new ShowCar(brand, model, year, horsepower, acceleration, suspension, durability));
+                    garage.addCarToGarage(new ShowCar(brand, model, year, horsepower, acceleration, suspension, durability));
                 } else if (typeLine.equals("PerformanceCar")) {
-                    garage.AddCarToGarage(new PerformanceCar(brand, model, year, horsepower, acceleration, suspension, durability));
+                    garage.addCarToGarage(new PerformanceCar(brand, model, year, horsepower, acceleration, suspension, durability));
                 } else if (typeLine.equals("Car")) {
-                    garage.AddCarToGarage(new Car(brand, model, year, horsepower, acceleration, suspension, durability));
+                    garage.addCarToGarage(new Car(brand, model, year, horsepower, acceleration, suspension, durability));
                 } else if (typeLine.equals("CasualRace")) {
                     raceList.add(new CasualRace(length, route, prize));
                 } else if (typeLine.equals("DragRace")) {
@@ -79,7 +79,7 @@ public class App {
                     raceList.add(new CircuitRace(length, route, prize, laps));
                 }
             }
-            bufferedWriter.write(garage.GetCarFromGarage() + "\r\n");
+            bufferedWriter.write(garage.getCarFromGarage() + "\r\n");
 
             for (Race i : raceList){
                 bufferedWriter.write(i.toString() + "\r");
