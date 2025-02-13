@@ -1,7 +1,7 @@
 package homeworks.homework12;
 
 
-import homeworks.homework12.exception.NotValidData;
+import homeworks.homework12.exception.NotValidDataException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -27,15 +27,15 @@ public class Person {
 
     public Person(String fio, String birthdateStr, String phoneNumberStr, String gender, String ageStr) {
         if (!fio.matches("[а-яА-я]+\\s[а-яА-я]+\\s[а-яА-я]+")) {
-            throw new NotValidData("Неверный формат ФИО (Необходимо ввести фаимлию, имя, отчество через пробел)");
+            throw new NotValidDataException("ОШИБКА: Неверный формат ФИО (Необходимо ввести фаимлию, имя, отчество через пробел)");
         } else if (!birthdateStr.matches("\\d{2}\\.\\d{2}\\.\\d{4}")) {
-            throw new NotValidData("Неверный формат даты рождения");
+            throw new NotValidDataException("ОШИБКА: Неверный формат даты рождения");
         } else if (!phoneNumberStr.matches("\\d{10}")) {
-            throw new NotValidData("Неверный формат номера телефона");
+            throw new NotValidDataException("ОШИБКА: Неверный формат номера телефона");
         } else if (!gender.matches("[mf]")) {
-            throw new NotValidData("Значение пола должно быть m или f");
+            throw new NotValidDataException("ОШИБКА: Значение пола должно быть m или f");
         } else if (!ageStr.matches("\\d{1,3}")) {
-            throw new NotValidData("Неверный формат возраста");
+            throw new NotValidDataException("ОШИБКА: Неверный формат возраста");
         } else {
 
 
@@ -57,10 +57,7 @@ public class Person {
                 this.gender = gender;
                 this.age = age;
             } catch (RuntimeException runtimeException) {
-
             }
-
-
             }
 
     }
