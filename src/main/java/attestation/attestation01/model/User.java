@@ -1,6 +1,7 @@
 package attestation.attestation01.model;
 
-import homeworks.homework12Addition.WrongLoginException;
+import attestation.attestation01.exceptions.WrongNameException;
+
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -34,28 +35,68 @@ public class User {
     }
     public User(String userParamString) {
         String[] userParamStringArray = userParamString.split("\\|");
-        if (!userParamStringArray[0].isEmpty()) {
+        if (!userParamStringArray[0].isBlank()) {
             this.id = userParamStringArray[0];
         } else
             this.id = String.valueOf(UUID.randomUUID());
-        if (!userParamStringArray[1].isEmpty()) {
+
+        if (!userParamStringArray[1].isBlank()) {
             this.inDateTime = LocalDateTime.parse(userParamStringArray[1], DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        } else
+        } else {
             this.inDateTime = LocalDateTime.now();
-        this.login = userParamStringArray[2];
-        this.password = userParamStringArray[3];
-        this.confirmPassword = userParamStringArray[4];
-        if (userParamStringArray[5].matches("^[а-яА-яa-zA-Z]+$")) {
-            throw new WrongLoginException("Фамилия должна содержать только буквы");
+        }
+
+        if (userParamStringArray[2].matches("(?=.*[a-zA-Z])(?=.*\\d)(?=.*[_]).{1,19}$")) {
+            this.login = userParamStringArray[2];
+        } else {
+            throw new WrongNameException("Логин должен содержать буквы, цифры и символ \"_\" и быть меньше 20 символов");
+        }
+        if (userParamStringArray[3].matches("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[_]).{1,19}$")) {
+            this.password = userParamStringArray[3];
+        } else {
+            throw new WrongNameException("Пароль должен содержать буквы, цифры и символ \"_\" и быть меньше 20 символов");
+        }
+        if (userParamStringArray[4].matches("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[_]).{1,19}$")) {
+            this.confirmPassword = userParamStringArray[4];
+        } else {
+            throw new WrongNameException("Пароль должен содержать буквы, цифры и символ \"_\" и быть меньше 20 символов");
+        }
+
+        if (!userParamStringArray[5].matches("^[а-яА-яa-zA-Z]+$")) {
+            throw new WrongNameException("Фамилия должна содержать только буквы");
         } else {
             this.firstName = userParamStringArray[5];;
         }
+        if (userParamStringArray[6].matches("^[а-яА-яa-zA-Z]+$")) {
+            this.lastName = userParamStringArray[6];
+        } else {
+            throw new WrongNameException("Имя должно содержать только буквы");
+        }
 
-        this.lastName = userParamStringArray[6];
-        this.middleName = userParamStringArray[7];
-        this.age = Integer.valueOf(userParamStringArray[8]);
-        this.isWorker = Boolean.valueOf(userParamStringArray[9]);
+        if (!userParamStringArray[7].equals("null") && !userParamStringArray[7].isBlank()) {
+            if (userParamStringArray[7].matches("^[а-яА-яa-zA-Z]+$")) {
+                this.middleName = userParamStringArray[7];
+            } else {
+                throw new WrongNameException("Отчетство должно содержать только буквы");
+            }
+        }
+
+        if (!userParamStringArray[8].equals("null") && !userParamStringArray[8].isBlank()) {
+            this.age = Integer.valueOf(userParamStringArray[8]);
+        }
+
+
+        if (!userParamStringArray[9].isBlank()) {
+            this.isWorker = Boolean.valueOf(userParamStringArray[9]);
+        } else {
+            this.isWorker = false;
+        }
+
     }
+
+    public User() {
+    }
+
 
     public String getId() {
         return id;
@@ -69,16 +110,16 @@ public class User {
         return inDateTime;
     }
 
-      public String getLogin() {
+    public String getLogin() {
         return login;
     }
 
     public void setLogin(String login) {
-        if (!login.matches("(?=.*\\w)(?=.*\\d)(?=.*[_])") || login.length() > 19) {
-            throw new WrongLoginException("Логин должен содержать только буквы, цифры и символ \"_\" и быть меньше 20 символов");
-        } else {
+        if (login.matches("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[_]).{1,19}$")) {
             this.login = login;
-        }
+        } else {
+            throw new WrongNameException("Логин должен содержать буквы, цифры и символ \"_\" и быть меньше 20 символов");
+            }
     }
 
     public String getPassword() {
@@ -86,10 +127,10 @@ public class User {
     }
 
     public void setPassword(String password) {
-        if (!password.matches("(?=.*\\w)(?=.*\\d)(?=.*[_])") || password.length() > 19) {
-            throw new WrongLoginException("Пароль должен содержать только буквы, цифры и символ \"_\" и быть меньше 20 символов");
-        } else {
+        if (password.matches("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[_]).{1,19}$")) {
             this.password = password;
+        } else {
+            throw new WrongNameException("Пароль должен содержать буквы, цифры и символ \"_\" и быть меньше 20 символов");
         }
 
     }
@@ -99,7 +140,11 @@ public class User {
     }
 
     public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
+        if (confirmPassword.matches("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[_]).{1,19}$")) {
+            this.confirmPassword = confirmPassword;
+        } else {
+            throw new WrongNameException("Пароль должен содержать буквы, цифры и символ \"_\" и быть меньше 20 символов");
+        }
     }
 
     public String getFirstName() {
@@ -107,8 +152,8 @@ public class User {
     }
 
     public void setFirstName(String firstName) {
-        if (firstName.matches("\\d")) {
-            throw new WrongLoginException("Фамилия должна содержать только буквы");
+        if (!firstName.matches("^[а-яА-яa-zA-Z]+$")) {
+            throw new WrongNameException("Фамилия должна содержать только буквы");
         } else {
             this.firstName = firstName;
         }
@@ -119,7 +164,12 @@ public class User {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        if (!lastName.matches("^[а-яА-яa-zA-Z]+$")) {
+            throw new WrongNameException("Имя должно содержать только буквы");
+        } else {
+            this.lastName = lastName;
+        }
+
     }
 
     public String getMiddleName() {
@@ -127,7 +177,12 @@ public class User {
     }
 
     public void setMiddleName(String middleName) {
-        this.middleName = middleName;
+        if (!middleName.matches("^[а-яА-яa-zA-Z]+$")) {
+            throw new WrongNameException("Отчетсво должно содержать только буквы");
+        } else {
+            this.middleName = middleName;
+        }
+
     }
 
     public Integer getAge() {
