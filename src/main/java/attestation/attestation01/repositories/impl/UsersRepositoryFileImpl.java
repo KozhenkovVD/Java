@@ -46,11 +46,11 @@ public class UsersRepositoryFileImpl implements UsersRepository {
 
     @Override
     public User findById(String id) {
-        User user = USERS.stream()
+        return
+                USERS.stream()
                 .filter(u -> u.getId().equals(id))
                 .findFirst()
                 .orElseThrow(()-> new NotExistUser("Пользователя с заданным идентификатором не существует"));
-        return user;
     }
 
     @Override
@@ -76,8 +76,8 @@ public class UsersRepositoryFileImpl implements UsersRepository {
 
     @Override
     public void deleteById(String id) {
-        USERS.removeIf(user -> user.getId().equals(id));
         try {
+            USERS.remove(findById(id));
             FileWriter fileWriter = new FileWriter(FILE_PATH);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             for (User user : USERS) {
@@ -85,7 +85,11 @@ public class UsersRepositoryFileImpl implements UsersRepository {
             }
             bufferedWriter.flush();
             fileWriter.close();
-        } catch (IOException ioException) {ioException.printStackTrace();}
+
+        } catch (RuntimeException|IOException exception) {
+            exception.printStackTrace();
+
+        }
     }
 
 
@@ -101,6 +105,20 @@ public class UsersRepositoryFileImpl implements UsersRepository {
             ioException.printStackTrace();
         }
 
+    }
+
+    @Override
+    public List<User> findByAge(Integer age) {
+        return USERS.stream()
+                .filter(user -> user.getAge().equals(age))
+                .toList();
+    }
+
+    @Override
+    public List<User> findByIsWorker() {
+        return USERS.stream()
+                .filter(user -> user.getWorker().equals(true))
+                .toList();
     }
 
 

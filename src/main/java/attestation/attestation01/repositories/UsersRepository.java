@@ -11,6 +11,8 @@ public interface UsersRepository {
     void update(User user);
     void deleteById(String id);
     void deleteAll();
+    List<User> findByAge(Integer age);
+    List<User> findByIsWorker();
 
 
 }
