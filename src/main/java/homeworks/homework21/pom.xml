@@ -98,7 +98,7 @@
           <schemas>
             <schema>public</schema>
           </schemas>
-          <cleanDisabled>false</cleanDisabled>
+          <cleanDisabled>true</cleanDisabled>
         </configuration>
       </plugin>
     </plugins>
