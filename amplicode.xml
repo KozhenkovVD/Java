@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AmplicodeJpaPluginProjectSettings">
+    <option name="lastSelectedLanguage" value="Java" />
+  </component>
+  <component name="AmplicodeLiquibaseChangesConfig">
+    <exclude-change idName="customers#phone_number" tagName="modifyDataType" />
+    <exclude-change idName="users#name" tagName="dropNotNullConstraint" />
+    <exclude-change idName="users#name" tagName="modifyDataType" />
+    <exclude-change idName="users#login" tagName="modifyDataType" />
+    <exclude-change idName="customers#name" tagName="modifyDataType" />
+    <exclude-change idName="televisions" tagName="createTable" />
+    <exclude-change idName="users#login" tagName="dropNotNullConstraint" />
+  </component>
   <component name="AmplicodePersistenceUnitSettings">
     <persistence-units>
-      <persistence-unit moduleName="App" name="Default">
+      <persistence-unit moduleName="App" name="Default" defaultIncludeChangeLogFile="src/main/java/attestation/attestation03/src/main/resources/db/changelog/db.changelog-master.xml" defaultSearchScope="Project">
         <packages>
           <package value="app" />
         </packages>
@@ -13,6 +25,16 @@
         </packages>
       </persistence-unit>
       <persistence-unit moduleName="App21" name="Default">
+        <packages>
+          <package value="app" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit moduleName="App23" name="Default">
+        <packages>
+          <package value="app" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit moduleName="attestation" name="Default">
         <packages>
           <package value="app" />
         </packages>
