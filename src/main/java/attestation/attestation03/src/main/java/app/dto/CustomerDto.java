@@ -5,9 +5,7 @@ import lombok.Value;
 
 import java.util.List;
 
-/**
- * DTO for {@link app.model.Customer}
- */
+
 @Value
 public class CustomerDto {
     Long id;

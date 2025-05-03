@@ -16,7 +16,7 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @GetMapping
+    @GetMapping("/all")
     public List<OrderDto> getAll() {
         return orderService.getAll();
     }
@@ -24,11 +24,6 @@ public class OrderController {
     @GetMapping("/{id}")
     public OrderDto getOne(@PathVariable Long id) {
         return orderService.getOne(id);
-    }
-
-    @GetMapping("/by-ids")
-    public List<OrderDto> getMany(@RequestParam List<Long> ids) {
-        return orderService.getMany(ids);
     }
 
     @PostMapping
@@ -41,18 +36,9 @@ public class OrderController {
         return orderService.patch(id, patchNode);
     }
 
-    @PatchMapping
-    public List<Long> patchMany(@RequestParam List<Long> ids, @RequestBody JsonNode patchNode) throws IOException {
-        return orderService.patchMany(ids, patchNode);
-    }
-
     @DeleteMapping("/{id}")
     public OrderDto delete(@PathVariable Long id) {
         return orderService.delete(id);
     }
 
-    @DeleteMapping
-    public void deleteMany(@RequestParam List<Long> ids) {
-        orderService.deleteMany(ids);
-    }
 }

@@ -28,6 +28,6 @@ public class Order {
     private LocalDateTime inDateTime;
 
     @OneToMany(mappedBy = "orderId")
-    private List<OrderProductList> orderProductsList;
+    private List<OrderProduct> orderProductsList;
 
 }

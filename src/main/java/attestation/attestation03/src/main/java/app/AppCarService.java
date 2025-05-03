@@ -1,5 +1,6 @@
 package app;
 
+import lombok.Generated;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -8,7 +9,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @EnableAspectJAutoProxy
 public class AppCarService {
 
-	public static void main(String[] args) {
+public static void main(String[] args) {
 		SpringApplication.run(AppCarService.class, args);
 	}
 }

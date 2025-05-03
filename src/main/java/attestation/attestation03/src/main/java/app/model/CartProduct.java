@@ -12,11 +12,7 @@ import lombok.*;
 @Table(name = "cart_products_list")
 @NoArgsConstructor(force = true)
 
-public class CartProduct {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
+public class CartProduct extends BaseEntity {
 
     @Column(name = "customer_id", nullable = false)
     private Long customerId;

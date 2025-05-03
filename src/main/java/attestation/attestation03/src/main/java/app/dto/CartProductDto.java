@@ -8,7 +8,6 @@ import lombok.Value;
  * DTO for {@link CartProduct}
  */
 @Value
-@Builder
 public class CartProductDto {
     Long customerId;
     ProductDto product;
