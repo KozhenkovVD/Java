@@ -27,14 +27,26 @@ public class CustomerController {
         return customerService.getOne(id);
     }
 
-    @GetMapping("/by-ids")
-    public List<CustomerDto> getMany(@RequestParam List<Long> ids) {
-        return customerService.getMany(ids);
+    @PostMapping("/registration")
+    public String create(@RequestBody CustomerDto customerDtoCreate) {
+        if (customerService.getCustomerByLogin(customerDtoCreate.getLogin()) != null) {
+            return "Пользователь с таким логином уже зарегистрирован.";
+        }
+        if (customerService.getCustomerByEmail(customerDtoCreate.getEmail()) != null) {
+            return "Пользователь с таким email уже зарегистрирован.";
+        }
+        customerService.create(customerDtoCreate);
+        return "Пользователь " + customerDtoCreate.getLogin() + " успешно зарегистрирован.";
     }
 
-    @PostMapping
-    public CustomerDto create(@RequestBody @Valid CustomerDto dto) {
-        return customerService.create(dto);
+    @PostMapping("/{id}/change-password")
+    public String changePassword(@PathVariable Long id,
+                                 @RequestBody CustomerDto customerDto) {
+        if (customerService.getOne(id).getPassword().equals(customerDto.getPassword())) {
+            return "Пароль не должен совпадать с текущим паролем.";
+        } else
+            customerService.changePassword(id, customerDto.getPassword());
+        return "Пароль успешно изменен.";
     }
 
     @PatchMapping("/{id}")
@@ -42,18 +54,10 @@ public class CustomerController {
         return customerService.patch(id, patchNode);
     }
 
-    @PatchMapping
-    public List<Long> patchMany(@RequestParam @Valid List<Long> ids, @RequestBody JsonNode patchNode) throws IOException {
-        return customerService.patchMany(ids, patchNode);
-    }
-
     @DeleteMapping("/{id}")
     public CustomerDto delete(@PathVariable Long id) {
         return customerService.delete(id);
     }
 
-    @DeleteMapping
-    public void deleteMany(@RequestParam List<Long> ids) {
-        customerService.deleteMany(ids);
-    }
+
 }

@@ -10,24 +10,24 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "customers")
+@NoArgsConstructor
+@AllArgsConstructor
+public class Customer extends BaseEntity{
 
-public class Customer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @Column(name = "login",nullable = false, unique = true)
+    private String login;
+
+    @Column(name = "password",nullable = false)
+    private String password;
 
     @Column(name = "name")
     private String name;
-
-    @Column(name = "phone_number", nullable = false)
-    private String phoneNumber;
 
     @Email
     @Column(name = "email")
     private String email;
 
     @OneToMany(mappedBy = "customerId")
-    private List<CartProductList> cartProducts;
+    private List<CartProduct> cartProducts;
 
 }

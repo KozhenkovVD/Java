@@ -17,7 +17,7 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public List<ProductDtoV2> getAll() {
+    public List<ProductDto> getAll() {
         return productService.getAll();
     }
 
@@ -26,10 +26,6 @@ public class ProductController {
         return productService.getOne(id);
     }
 
-    @GetMapping("/by-ids")
-    public List<ProductDto> getMany(@RequestParam List<Long> ids) {
-        return productService.getMany(ids);
-    }
 
     @PostMapping
     public ProductDto create(@RequestBody ProductDto dto) {
@@ -41,18 +37,9 @@ public class ProductController {
         return productService.patch(id, patchNode);
     }
 
-    @PatchMapping
-    public List<Long> patchMany(@RequestParam List<Long> ids, @RequestBody JsonNode patchNode) throws IOException {
-        return productService.patchMany(ids, patchNode);
-    }
-
     @DeleteMapping("/{id}")
     public ProductDto delete(@PathVariable Long id) {
         return productService.delete(id);
     }
 
-    @DeleteMapping
-    public void deleteMany(@RequestParam List<Long> ids) {
-        productService.deleteMany(ids);
-    }
 }

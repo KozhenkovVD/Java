@@ -10,16 +10,18 @@ import java.util.List;
  */
 @Value
 public class CustomerDto {
+    Long id;
+    String login;
+    String password;
     String name;
-    String phoneNumber;
     @Email
     String email;
-    List<CartProductListDto> cartProducts;
+    List<CartProductDto> cartProducts;
 
-    @Value
-    public static class CartProductListDto {
-        String name;
-        Integer quantity;
-    }
+//    @Value
+//    public static class CartProductListDto {
+//        String name;
+//        Integer quantity;
+//    }
 
 }

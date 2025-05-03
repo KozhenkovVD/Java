@@ -1,7 +1,7 @@
 package app.mapper;
 
-import app.dto.CartProductListDto;
-import app.model.CartProductList;
+import app.dto.CartProductDto;
+import app.model.CartProduct;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
@@ -9,9 +9,9 @@ import org.mapstruct.ReportingPolicy;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface CartProductListMapper {
-    CartProductList toEntity(CartProductListDto cartProductListDto);
+    CartProduct toEntity(CartProductDto cartProductListDto);
 
-    CartProductListDto toCartProductListDto(CartProductList cartProductList);
+    CartProductDto toCartProductListDto(CartProduct cartProductList);
 
-    CartProductList updateWithNull(CartProductListDto cartProductListDto, @MappingTarget CartProductList cartProductList);
+    CartProduct updateWithNull(CartProductDto cartProductListDto, @MappingTarget CartProduct cartProductList);
 }
