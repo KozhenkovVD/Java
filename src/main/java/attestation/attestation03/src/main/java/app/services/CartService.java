@@ -2,7 +2,8 @@ package app.services;
 
 import app.dto.CartProductDto;
 import app.dto.CartProductDtoCreate;
-import app.mapper.CartProductListMapper;
+import app.dto.ProductDto;
+import app.mapper.CartProductMapper;
 import app.model.CartProduct;
 import app.repository.CartProductRepository;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -20,7 +21,7 @@ import java.util.Optional;
 @Service
 public class CartService {
 
-    private final CartProductListMapper cartProductListMapper;
+    private final CartProductMapper cartProductMapper;
 
     private final CartProductRepository cartProductRepository;
 
@@ -30,38 +31,34 @@ public class CartService {
 
     public List<CartProductDto> getByCustomerId(Long customerId) {
         List<CartProduct> cartProductLists = cartProductRepository.findByCustomerId(customerId);
-        return cartProductLists.stream()
-                .map(cartProductListMapper::toCartProductListDto)
-                .toList();
+        return cartProductMapper.toDtoList(cartProductLists);
+
     }
 
     public CartProductDto getOne(Long id) {
         Optional<CartProduct> cartProductListOptional = cartProductRepository.findById(id);
-        return cartProductListMapper.toCartProductListDto(cartProductListOptional.orElseThrow(() ->
+        return cartProductMapper.toDto(cartProductListOptional.orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id))));
     }
 
     public CartProductDto create(Long customerId, CartProductDtoCreate dto) {
-        CartProductDto cartProductListDto = CartProductDto.builder()
-                    .customerId(customerId)
-                    .product(productService.getOne(dto.getProductId()))
-                    .quantity(dto.getQuantity())
-                    .build();
-        CartProduct cartProductList = cartProductListMapper.toEntity(cartProductListDto);
+        ProductDto productDto = productService.getOne(dto.getProductId());
+        CartProductDto cartProductDto = new CartProductDto(customerId, productDto, dto.getQuantity());
+        CartProduct cartProductList = cartProductMapper.toEntity(cartProductDto);
         CartProduct resultCartProductList = cartProductRepository.save(cartProductList);
-        return cartProductListMapper.toCartProductListDto(resultCartProductList);
+        return cartProductMapper.toDto(resultCartProductList);
     }
 
     public CartProductDto patch(Long id, JsonNode patchNode) throws IOException {
         CartProduct cartProductList = cartProductRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id)));
 
-        CartProductDto cartProductListDto = cartProductListMapper.toCartProductListDto(cartProductList);
+        CartProductDto cartProductListDto = cartProductMapper.toDto(cartProductList);
         objectMapper.readerForUpdating(cartProductListDto).readValue(patchNode);
-        cartProductListMapper.updateWithNull(cartProductListDto, cartProductList);
+        cartProductMapper.updateWithNull(cartProductListDto, cartProductList);
 
         CartProduct resultCartProductList = cartProductRepository.save(cartProductList);
-        return cartProductListMapper.toCartProductListDto(resultCartProductList);
+        return cartProductMapper.toDto(resultCartProductList);
     }
 
 
@@ -70,7 +67,7 @@ public class CartService {
         if (cartProductList != null) {
             cartProductRepository.delete(cartProductList);
         }
-        return cartProductListMapper.toCartProductListDto(cartProductList);
+        return cartProductMapper.toDto(cartProductList);
     }
 
 

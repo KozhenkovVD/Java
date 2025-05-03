@@ -7,11 +7,13 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.List;
+
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
-public interface CartProductListMapper {
+public interface CartProductMapper {
     CartProduct toEntity(CartProductDto cartProductListDto);
 
-    CartProductDto toCartProductListDto(CartProduct cartProductList);
-
+    CartProductDto toDto(CartProduct cartProductList);
+    List<CartProductDto> toDtoList(List<CartProduct> cartProductList);
     CartProduct updateWithNull(CartProductDto cartProductListDto, @MappingTarget CartProduct cartProductList);
 }

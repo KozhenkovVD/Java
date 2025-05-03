@@ -3,7 +3,7 @@ package app.services;
 import app.dto.OrderDto;
 import app.model.Order;
 import app.mapper.OrderMapper;
-import app.model.OrderProductList;
+import app.model.OrderProduct;
 import app.repository.OrderProductListRepository;
 import app.repository.OrderRepository;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -53,7 +53,7 @@ public class OrderService {
     public OrderDto create(OrderDto dto) {
         Order order = orderMapper.toEntity(dto);
         Order resultOrder = orderRepository.save(order);
-        List<OrderProductList> OrderProductList = order.getOrderProductsList();
+        List<OrderProduct> OrderProductList = order.getOrderProductsList();
         OrderProductList.forEach(i -> i.setOrderId(resultOrder.getId()));
         OrderProductList.forEach(orderProductListRepository::save);
         return orderMapper.toOrderDto(resultOrder);

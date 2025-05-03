@@ -23,3 +23,9 @@ values (1 ,2, 1, now())
 	  ,(2 ,7, 1, now())
 	  ,(2 ,6, 1, now())
 	  ,(2 ,10, 9, now());
+
+insert into orders (order_date, customer_id, in_date_time)
+values ('20250101', 2, now())
+
+--insert into order_product_list (order_id, product_id, price, quantity)
+--values (1 ,2, 3000, 1)
