@@ -31,13 +31,13 @@ public class CartController {
         return cartService.create(customerId, dto);
     }
 
-    @PatchMapping("/{id}")
-    public CartProductDto patch(@PathVariable Long id, @RequestBody JsonNode patchNode) throws IOException {
-        return cartService.patch(id, patchNode);
+    @PutMapping("/{id}")
+    public CartProductDto patch(@PathVariable Long id, @RequestBody CartProductDto cartProductDto) throws IOException {
+        return cartService.update(id, cartProductDto);
     }
 
     @DeleteMapping("/{id}")
-    public CartProductDto delete(@PathVariable Long id) {
+    public String delete(@PathVariable Long id) {
         return cartService.delete(id);
     }
 

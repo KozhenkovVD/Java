@@ -13,11 +13,11 @@ public class OrderDto {
     Long id;
     LocalDate orderDate;
     Long customerId;
-    List<OrderProductListDto> orderProductsList;
+    List<OrderProductDto> orderProductsList;
 
 
     @Value
-    public static class OrderProductListDto {
+    public static class OrderProductDto {
         Long productId;
         BigDecimal price;
         Integer quantity;

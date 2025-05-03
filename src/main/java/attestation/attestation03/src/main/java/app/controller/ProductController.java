@@ -32,13 +32,13 @@ public class ProductController {
         return productService.create(dto);
     }
 
-    @PatchMapping("/{id}")
-    public ProductDto patch(@PathVariable Long id, @RequestBody JsonNode patchNode) throws IOException {
-        return productService.patch(id, patchNode);
+    @PutMapping("/{id}")
+    public ProductDto patch(@PathVariable Long id, @RequestBody ProductDto productDto) throws IOException {
+        return productService.update(id, productDto);
     }
 
     @DeleteMapping("/{id}")
-    public ProductDto delete(@PathVariable Long id) {
+    public String delete(@PathVariable Long id) {
         return productService.delete(id);
     }
 

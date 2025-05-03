@@ -12,8 +12,6 @@ import java.util.List;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface CartProductMapper {
     CartProduct toEntity(CartProductDto cartProductListDto);
-
     CartProductDto toDto(CartProduct cartProductList);
     List<CartProductDto> toDtoList(List<CartProduct> cartProductList);
-    CartProduct updateWithNull(CartProductDto cartProductListDto, @MappingTarget CartProduct cartProductList);
 }

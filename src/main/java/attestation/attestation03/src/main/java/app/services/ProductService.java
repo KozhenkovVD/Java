@@ -33,7 +33,7 @@ public class ProductService {
         return productMapper.toDtoList(products);
     }
 
-    public ProductDto getOne(Long id) {
+    public ProductDto getOne(Long id) throws NotFoundException {
         Optional<Product> productOptional = productRepository.findById(id);
         return productMapper.toDto(productOptional.orElseThrow(() ->
                 new NotFoundException("Продукт с id `%s` не найден".formatted(id))));
@@ -45,26 +45,26 @@ public class ProductService {
         return productMapper.toDto(resultProduct);
     }
 
-    public ProductDto patch(Long id, JsonNode patchNode) throws IOException {
+public ProductDto update(Long id, ProductDto  productDto) throws NotFoundException {
+    Product product = productRepository.findById(id).orElseThrow(() ->
+            new NotFoundException("Продукт с id `%s` не найден".formatted(id)));
+    product.setName(productDto.getName());
+    product.setType(productDto.getType());
+    product.setPrice(productDto.getPrice());
+    Product resultProduct = productRepository.save(product);
+
+    return productMapper.toDto(resultProduct);
+}
+
+
+    public String delete(Long id) {
         Product product = productRepository.findById(id).orElseThrow(() ->
                 new NotFoundException("Продукт с id `%s` не найден".formatted(id)));
-
-        ProductDto productDto = productMapper.toDto(product);
-        objectMapper.readerForUpdating(productDto).readValue(patchNode);
-        productMapper.updateWithNull(productDto, product);
-
-        Product resultProduct = productRepository.save(product);
-        return productMapper.toDto(resultProduct);
-    }
-
-
-    public ProductDto delete(Long id) {
-        Product product = productRepository.findById(id).orElse(null);
         if (product != null) {
             product.setDeleted(true);
             productRepository.save(product);
         }
-        return productMapper.toDto(product);
+        return "Продукт удален";
     }
 
 }

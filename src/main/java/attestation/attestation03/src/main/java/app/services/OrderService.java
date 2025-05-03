@@ -1,10 +1,12 @@
 package app.services;
 
 import app.dto.OrderDto;
+import app.exception.NotFoundException;
 import app.model.Order;
 import app.mapper.OrderMapper;
 import app.model.OrderProduct;
-import app.repository.OrderProductListRepository;
+import app.model.Product;
+import app.repository.OrderProductRepository;
 import app.repository.OrderRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,73 +29,48 @@ public class OrderService {
 
     private final ObjectMapper objectMapper;
 
-    private final OrderProductListRepository orderProductListRepository;
+    private final OrderProductRepository orderProductRepository;
 
     public List<OrderDto> getAll() {
         List<Order> orders = orderRepository.findAll();
-        return orders.stream()
-                .map(orderMapper::toOrderDto)
-                .toList();
+        return orderMapper.toDtoList(orders);
     }
 
-    public OrderDto getOne(Long id) {
+    public OrderDto getOne(Long id) throws NotFoundException {
         Optional<Order> orderOptional = orderRepository.findById(id);
-        return orderMapper.toOrderDto(orderOptional.orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id))));
+        return orderMapper.toDto(orderOptional.orElseThrow(() ->
+                new NotFoundException("Заказ с id `%s` не найден".formatted(id))));
     }
 
-    public List<OrderDto> getMany(List<Long> ids) {
-        List<Order> orders = orderRepository.findAllById(ids);
-        return orders.stream()
-                .map(orderMapper::toOrderDto)
-                .toList();
-    }
 
     public OrderDto create(OrderDto dto) {
         Order order = orderMapper.toEntity(dto);
         Order resultOrder = orderRepository.save(order);
         List<OrderProduct> OrderProductList = order.getOrderProductsList();
         OrderProductList.forEach(i -> i.setOrderId(resultOrder.getId()));
-        OrderProductList.forEach(orderProductListRepository::save);
-        return orderMapper.toOrderDto(resultOrder);
+        OrderProductList.forEach(orderProductRepository::save);
+        return orderMapper.toDto(resultOrder);
     }
 
-    public OrderDto patch(Long id, JsonNode patchNode) throws IOException {
+    public OrderDto update(Long id, OrderDto orderDto) throws NotFoundException {
         Order order = orderRepository.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id)));
-
-        OrderDto orderDto = orderMapper.toOrderDto(order);
-        objectMapper.readerForUpdating(orderDto).readValue(patchNode);
-        orderMapper.updateWithNull(orderDto, order);
-
+                new NotFoundException("Заказ с id `%s` не найден".formatted(id)));
+        order.setCustomerId(orderDto.getCustomerId());
+        order.setOrderDate(orderDto.getOrderDate());
         Order resultOrder = orderRepository.save(order);
-        return orderMapper.toOrderDto(resultOrder);
+        return orderMapper.toDto(resultOrder);
     }
 
-    public List<Long> patchMany(List<Long> ids, JsonNode patchNode) throws IOException {
-        Collection<Order> orders = orderRepository.findAllById(ids);
 
-        for (Order order : orders) {
-            OrderDto orderDto = orderMapper.toOrderDto(order);
-            objectMapper.readerForUpdating(orderDto).readValue(patchNode);
-            orderMapper.updateWithNull(orderDto, order);
-        }
 
-        List<Order> resultOrders = orderRepository.saveAll(orders);
-        return resultOrders.stream()
-                .map(Order::getId)
-                .toList();
-    }
-
-    public OrderDto delete(Long id) {
-        Order order = orderRepository.findById(id).orElse(null);
+    public String delete(Long id) {
+        Order order = orderRepository.findById(id).orElseThrow(() ->
+                new NotFoundException("Заказ с id `%s` не найден".formatted(id)));
         if (order != null) {
-            orderRepository.delete(order);
+            order.setDeleted(true);
+            orderRepository.save(order);
         }
-        return orderMapper.toOrderDto(order);
+        return "Заказ удален";
     }
 
-    public void deleteMany(List<Long> ids) {
-        orderRepository.deleteAllById(ids);
-    }
 }

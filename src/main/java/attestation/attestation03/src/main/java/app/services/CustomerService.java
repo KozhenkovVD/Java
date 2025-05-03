@@ -1,8 +1,11 @@
 package app.services;
 
 import app.dto.CustomerDto;
+import app.dto.OrderDto;
+import app.exception.NotFoundException;
 import app.mapper.CustomerMapper;
 import app.model.Customer;
+import app.model.Order;
 import app.repository.CustomerRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,8 +37,9 @@ public class CustomerService{
     public CustomerDto getOne(Long id) {
         Optional<Customer> customerOptional = customerRepository.findById(id);
         return customerMapper.toDto(customerOptional.orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id))));
+                new NotFoundException("Покупатель с id `%s` не найден".formatted(id))));
     }
+
 
     public CustomerDto getCustomerByLogin(String login) {
         return customerMapper.toDto(customerRepository.findCustomerByLogin(login));
@@ -46,7 +50,8 @@ public class CustomerService{
     }
 
     public void changePassword(Long customerId, String password) {
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с id `%s` не найден".formatted(customerId)));
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() ->
+                new NotFoundException("Покупатель с id `%s` не найден".formatted(customerId)));
         customer.setPassword(password);
         customerRepository.save(customer);
     }
@@ -57,24 +62,23 @@ public class CustomerService{
         return customerMapper.toDto(resultCustomer);
     }
 
-    public CustomerDto patch(Long id, JsonNode patchNode) throws IOException {
+    public CustomerDto update(Long id, CustomerDto customerDto) throws NotFoundException {
         Customer customer = customerRepository.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id)));
-
-        CustomerDto customerDto = customerMapper.toDto(customer);
-        objectMapper.readerForUpdating(customerDto).readValue(patchNode);
-        customerMapper.updateWithNull(customerDto, customer);
-
-        Customer resultCustomer = customerRepository.save(customer);
-        return customerMapper.toDto(resultCustomer);
+                new NotFoundException("Покупатель с id `%s` не найден".formatted(id)));
+        customer.setName(customerDto.getName());
+        customer.setEmail(customerDto.getEmail());
+        Customer resultOrder = customerRepository.save(customer);
+        return customerMapper.toDto(resultOrder);
     }
 
-    public CustomerDto delete(Long id) {
-        Customer customer = customerRepository.findById(id).orElse(null);
+    public String delete(Long id) {
+        Customer customer = customerRepository.findById(id).orElseThrow(() ->
+                new NotFoundException("Покупатель с id `%s` не найден".formatted(id)));
         if (customer != null) {
-            customerRepository.delete(customer);
+            customer.setDeleted(true);
+            customerRepository.save(customer);
         }
-        return customerMapper.toDto(customer);
+        return "Покупатель удален";
     }
 
 
