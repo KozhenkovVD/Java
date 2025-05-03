@@ -49,13 +49,13 @@ public class CustomerController {
         return "Пароль успешно изменен.";
     }
 
-    @PatchMapping("/{id}")
-    public CustomerDto patch(@PathVariable Long id, @RequestBody JsonNode patchNode) throws IOException {
-        return customerService.patch(id, patchNode);
+    @PutMapping("/{id}")
+    public CustomerDto patch(@PathVariable Long id, @RequestBody CustomerDto customerDto) throws IOException {
+        return customerService.update(id, customerDto);
     }
 
     @DeleteMapping("/{id}")
-    public CustomerDto delete(@PathVariable Long id) {
+    public String delete(@PathVariable Long id) {
         return customerService.delete(id);
     }
 

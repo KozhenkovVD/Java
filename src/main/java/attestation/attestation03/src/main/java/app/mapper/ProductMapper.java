@@ -14,7 +14,5 @@ public interface ProductMapper {
 
     ProductDto toDto(Product product);
 
-    Product updateWithNull(ProductDto productDto, @MappingTarget Product product);
-
     List<ProductDto> toDtoList(List<Product> products);
 }

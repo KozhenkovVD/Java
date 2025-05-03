@@ -2,9 +2,12 @@ package app.services;
 
 import app.dto.CartProductDto;
 import app.dto.CartProductDtoCreate;
+import app.dto.CustomerDto;
 import app.dto.ProductDto;
+import app.exception.NotFoundException;
 import app.mapper.CartProductMapper;
 import app.model.CartProduct;
+import app.model.Customer;
 import app.repository.CartProductRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,7 +41,7 @@ public class CartService {
     public CartProductDto getOne(Long id) {
         Optional<CartProduct> cartProductListOptional = cartProductRepository.findById(id);
         return cartProductMapper.toDto(cartProductListOptional.orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id))));
+                new NotFoundException("Товар с id `%s` не найден".formatted(id))));
     }
 
     public CartProductDto create(Long customerId, CartProductDtoCreate dto) {
@@ -49,25 +52,23 @@ public class CartService {
         return cartProductMapper.toDto(resultCartProductList);
     }
 
-    public CartProductDto patch(Long id, JsonNode patchNode) throws IOException {
-        CartProduct cartProductList = cartProductRepository.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id)));
-
-        CartProductDto cartProductListDto = cartProductMapper.toDto(cartProductList);
-        objectMapper.readerForUpdating(cartProductListDto).readValue(patchNode);
-        cartProductMapper.updateWithNull(cartProductListDto, cartProductList);
-
-        CartProduct resultCartProductList = cartProductRepository.save(cartProductList);
-        return cartProductMapper.toDto(resultCartProductList);
+      public CartProductDto update(Long id, CartProductDto cartProductDto) throws NotFoundException {
+        CartProduct cartProduct = cartProductRepository.findById(id).orElseThrow(() ->
+                new NotFoundException("Товар с id `%s` не найден".formatted(id)));
+        cartProduct.setQuantity(cartProductDto.getQuantity());
+        CartProduct resultcartProduct = cartProductRepository.save(cartProduct);
+        return cartProductMapper.toDto(resultcartProduct);
     }
 
 
-    public CartProductDto delete(Long id) {
-        CartProduct cartProductList = cartProductRepository.findById(id).orElse(null);
-        if (cartProductList != null) {
-            cartProductRepository.delete(cartProductList);
+    public String delete(Long id) {
+        CartProduct cartProduct = cartProductRepository.findById(id).orElseThrow(() ->
+                new NotFoundException("Товар с id `%s` не найден".formatted(id)));
+        if (cartProduct != null) {
+            cartProduct.setDeleted(true);
+            cartProductRepository.save(cartProduct);
         }
-        return cartProductMapper.toDto(cartProductList);
+        return "Товар удален";
     }
 
 

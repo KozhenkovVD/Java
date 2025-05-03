@@ -31,13 +31,12 @@ public class OrderController {
         return orderService.create(dto);
     }
 
-    @PatchMapping("/{id}")
-    public OrderDto patch(@PathVariable Long id, @RequestBody JsonNode patchNode) throws IOException {
-        return orderService.patch(id, patchNode);
-    }
+    @PutMapping("/{id}")
+    public OrderDto update(@PathVariable Long id, @RequestBody OrderDto orderDto) throws IOException {
+        return orderService.update(id, orderDto); }
 
     @DeleteMapping("/{id}")
-    public OrderDto delete(@PathVariable Long id) {
+    public String delete(@PathVariable Long id) {
         return orderService.delete(id);
     }
 
