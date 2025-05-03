@@ -28,55 +28,45 @@ public class CustomerService{
 
     public List<CustomerDto> getAll() {
         List<Customer> customers = customerRepository.findAll();
-        return customers.stream()
-                .map(customerMapper::toCustomerDto)
-                .toList();
+        return customerMapper.toDtoList(customers);
     }
 
     public CustomerDto getOne(Long id) {
         Optional<Customer> customerOptional = customerRepository.findById(id);
-        return customerMapper.toCustomerDto(customerOptional.orElseThrow(() ->
+        return customerMapper.toDto(customerOptional.orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id))));
     }
 
-    public List<CustomerDto> getMany(List<Long> ids) {
-        List<Customer> customers = customerRepository.findAllById(ids);
-        return customers.stream()
-                .map(customerMapper::toCustomerDto)
-                .toList();
+    public CustomerDto getCustomerByLogin(String login) {
+        return customerMapper.toDto(customerRepository.findCustomerByLogin(login));
+    }
+
+    public CustomerDto getCustomerByEmail(String email) {
+        return customerMapper.toDto(customerRepository.findCustomerByEmail(email));
+    }
+
+    public void changePassword(Long customerId, String password) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с id `%s` не найден".formatted(customerId)));
+        customer.setPassword(password);
+        customerRepository.save(customer);
     }
 
     public CustomerDto create(CustomerDto dto) {
         Customer customer = customerMapper.toEntity(dto);
         Customer resultCustomer = customerRepository.save(customer);
-        return customerMapper.toCustomerDto(resultCustomer);
+        return customerMapper.toDto(resultCustomer);
     }
 
     public CustomerDto patch(Long id, JsonNode patchNode) throws IOException {
         Customer customer = customerRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id)));
 
-        CustomerDto customerDto = customerMapper.toCustomerDto(customer);
+        CustomerDto customerDto = customerMapper.toDto(customer);
         objectMapper.readerForUpdating(customerDto).readValue(patchNode);
         customerMapper.updateWithNull(customerDto, customer);
 
         Customer resultCustomer = customerRepository.save(customer);
-        return customerMapper.toCustomerDto(resultCustomer);
-    }
-
-    public List<Long> patchMany(List<Long> ids, JsonNode patchNode) throws IOException {
-        Collection<Customer> customers = customerRepository.findAllById(ids);
-
-        for (Customer customer : customers) {
-            CustomerDto customerDto = customerMapper.toCustomerDto(customer);
-            objectMapper.readerForUpdating(customerDto).readValue(patchNode);
-            customerMapper.updateWithNull(customerDto, customer);
-        }
-
-        List<Customer> resultCustomers = customerRepository.saveAll(customers);
-        return resultCustomers.stream()
-                .map(Customer::getId)
-                .toList();
+        return customerMapper.toDto(resultCustomer);
     }
 
     public CustomerDto delete(Long id) {
@@ -84,10 +74,8 @@ public class CustomerService{
         if (customer != null) {
             customerRepository.delete(customer);
         }
-        return customerMapper.toCustomerDto(customer);
+        return customerMapper.toDto(customer);
     }
 
-    public void deleteMany(List<Long> ids) {
-        customerRepository.deleteAllById(ids);
-    }
+
 }

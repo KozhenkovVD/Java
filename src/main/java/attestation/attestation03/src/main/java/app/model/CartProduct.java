@@ -12,7 +12,7 @@ import lombok.*;
 @Table(name = "cart_products_list")
 @NoArgsConstructor(force = true)
 
-public class CartProductList {
+public class CartProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

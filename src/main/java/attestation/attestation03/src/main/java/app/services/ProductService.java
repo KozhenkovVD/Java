@@ -2,6 +2,7 @@ package app.services;
 
 import app.dto.ProductDto;
 import app.dto.ProductDtoV2;
+import app.exception.NotFoundException;
 import app.mapper.ProductMapper;
 import app.model.Product;
 import app.repository.ProductRepository;
@@ -27,77 +28,43 @@ public class ProductService {
 
     private final ObjectMapper objectMapper;
 
-    public List<ProductDtoV2> getAll() {
+    public List<ProductDto> getAll() {
         List<Product> products = productRepository.findAll();
-        return products.stream()
-                .map(productMapper::toProductDtoV2)
-                .toList();
+        return productMapper.toDtoList(products);
     }
 
     public ProductDto getOne(Long id) {
         Optional<Product> productOptional = productRepository.findById(id);
-        return productMapper.toProductDto(productOptional.orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id))));
-    }
-
-    public List<ProductDto> getMany(List<Long> ids) {
-        List<Product> products = productRepository.findAllById(ids);
-        return products.stream()
-                .map(productMapper::toProductDto)
-                .toList();
+        return productMapper.toDto(productOptional.orElseThrow(() ->
+                new NotFoundException("Продукт с id `%s` не найден".formatted(id))));
     }
 
     public ProductDto create(ProductDto dto) {
         Product product = productMapper.toEntity(dto);
         Product resultProduct = productRepository.save(product);
-        return productMapper.toProductDto(resultProduct);
-    }
-
-    public List<ProductDto> createList(List<ProductDto> dtos) {
-        dtos.forEach(dto -> {
-            Product product = productMapper.toEntity(dto);
-            System.out.println(product);
-            Product resultProduct = productRepository.save(product);});
-
-        return dtos;
+        return productMapper.toDto(resultProduct);
     }
 
     public ProductDto patch(Long id, JsonNode patchNode) throws IOException {
         Product product = productRepository.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id)));
+                new NotFoundException("Продукт с id `%s` не найден".formatted(id)));
 
-        ProductDto productDto = productMapper.toProductDto(product);
+        ProductDto productDto = productMapper.toDto(product);
         objectMapper.readerForUpdating(productDto).readValue(patchNode);
         productMapper.updateWithNull(productDto, product);
 
         Product resultProduct = productRepository.save(product);
-        return productMapper.toProductDto(resultProduct);
+        return productMapper.toDto(resultProduct);
     }
 
-    public List<Long> patchMany(List<Long> ids, JsonNode patchNode) throws IOException {
-        Collection<Product> products = productRepository.findAllById(ids);
-
-        for (Product product : products) {
-            ProductDto productDto = productMapper.toProductDto(product);
-            objectMapper.readerForUpdating(productDto).readValue(patchNode);
-            productMapper.updateWithNull(productDto, product);
-        }
-
-        List<Product> resultProducts = productRepository.saveAll(products);
-        return resultProducts.stream()
-                .map(Product::getId)
-                .toList();
-    }
 
     public ProductDto delete(Long id) {
         Product product = productRepository.findById(id).orElse(null);
         if (product != null) {
-            productRepository.delete(product);
+            product.setDeleted(true);
+            productRepository.save(product);
         }
-        return productMapper.toProductDto(product);
+        return productMapper.toDto(product);
     }
 
-    public void deleteMany(List<Long> ids) {
-        productRepository.deleteAllById(ids);
-    }
 }

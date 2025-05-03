@@ -1,25 +1,25 @@
-insert into customers (name, phone_number, email)
-values   ('Владимир', '+79211234567', 'vlad@mail.ru')
-        ,('Антон', '+79211234568', 'anton@mail.ru')
-        ,('Андрей', '+79211234569', 'andrey@mail.ru');
+insert into customers (login, password, name, email, in_date_time)
+values   ('vlad@mail.ru', '12345','Владимир', 'vlad@mail.ru', now())
+        ,('anton@mail.ru', '56488','Антон', 'anton@mail.ru', now())
+        ,('andrey@mail.ru', '56488', 'Андрей', 'andrey@mail.ru', now());
 
-insert into products (type, name, price)
-values   (0,'Шиномонтаж на дисках R 14', 2500)
-        ,(0,'Шиномонтаж на дисках R 15', 3000)
-        ,(0,'Шиномонтаж на дисках R 16', 3300)
-        ,(0,'Шиномонтаж на дисках R 17', 3500)
-        ,(0,'Шиномонтаж на дисках R 18', 4000)
-        ,(0,'Шиномонтаж на дисках R 19', 5000)
-        ,(0,'Шиномонтаж на дисках R 20', 8000)
-        ,(0,'Балансировка', 1000)
-        ,(0,'Подкачка колес', 300)
-        ,(1,'Груз 5г',  30)
-        ,(1,'Груз 10г', 40)
-        ,(1,'Груз 15г', 50);
+insert into products (type, name, price, in_date_time)
+values   (0,'Шиномонтаж на дисках R 17', 3500, now())
+        ,(0,'Шиномонтаж на дисках R 18', 4000, now())
+        ,(0,'Шиномонтаж на дисках R 19', 5000, now())
+        ,(0,'Шиномонтаж на дисках R 20', 8000, now())
+        ,(0,'Посомотреть как работает сотрудник',  5000, now())
+        ,(0,'Дать совет',  15000, now())
+        ,(0,'Балансировка', 1000, now())
+        ,(0,'Подкачка колес', 300, now())
+        ,(1,'Груз 5г',  30, now())
+        ,(1,'Груз 10г', 40, now())
+        ,(1,'Груз 15г', 50, now());
 
-insert into cart_products_list (customer_id, product_id, quantity)
-values (1 ,2, 1)
-	  ,(1 ,11, 1)
-	  ,(1 ,12, 7)
-	  ,(2 ,7, 1)
-	  ,(2 ,10, 9);
+insert into cart_products_list (customer_id, product_id, quantity, in_date_time)
+values (1 ,2, 1, now())
+	  ,(1 ,5, 1, now())
+	  ,(1 ,11, 7, now())
+	  ,(2 ,7, 1, now())
+	  ,(2 ,6, 1, now())
+	  ,(2 ,10, 9, now());
