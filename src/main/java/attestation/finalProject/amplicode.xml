@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AmplicodeJpaPluginProjectSettings">
+    <option name="lastSelectedLanguage" value="Java" />
+  </component>
+  <component name="AmplicodeLiquibaseChangesConfig">
+    <exclude-change idName="users#login" tagName="addUniqueConstraint" />
+    <exclude-change idName="users#login" tagName="modifyDataType" />
+    <exclude-change idName="customers#name" tagName="modifyDataType" />
+    <exclude-change idName="users#name" tagName="modifyDataType" />
+    <exclude-change idName="customers#phone_number" tagName="modifyDataType" />
+    <exclude-change idName="customers#phone_number" tagName="addNotNullConstraint" />
+  </component>
+  <component name="AmplicodePersistenceUnitSettings">
+    <persistence-units>
+      <persistence-unit moduleName="Attestation" name="Default" defaultIncludeChangeLogFile="src/main/resources/db/changelog/db.changelog-master.xml" defaultSearchScope="Project">
+        <packages>
+          <package value="app" />
+        </packages>
+      </persistence-unit>
+    </persistence-units>
+  </component>
+</project>
