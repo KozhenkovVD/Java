@@ -1,8 +1,7 @@
 package app.services.data;
 
-import app.dto.CustomerDto;
+
 import app.dto.OrderDto;
-import app.model.Customer;
 import app.model.Order;
 import app.model.OrderProduct;
 

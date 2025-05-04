@@ -26,8 +26,6 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    private final ObjectMapper objectMapper;
-
     public List<ProductDto> getAll() {
         List<Product> products = productRepository.findAll();
         return productMapper.toDtoList(products);

@@ -30,8 +30,6 @@ public class CartService {
 
     private final ProductService productService;
 
-    private final ObjectMapper objectMapper;
-
     public List<CartProductDto> getByCustomerId(Long customerId) {
         List<CartProduct> cartProductLists = cartProductRepository.findByCustomerId(customerId);
         return cartProductMapper.toDtoList(cartProductLists);

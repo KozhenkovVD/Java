@@ -15,11 +15,4 @@ public class CustomerDto {
     @Email
     String email;
     List<CartProductDto> cartProducts;
-
-//    @Value
-//    public static class CartProductListDto {
-//        String name;
-//        Integer quantity;
-//    }
-
 }
