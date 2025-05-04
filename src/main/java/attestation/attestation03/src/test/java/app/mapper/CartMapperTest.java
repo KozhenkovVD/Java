@@ -4,7 +4,7 @@ import app.dto.CartProductDto;
 import app.dto.OrderDto;
 import app.model.CartProduct;
 import app.model.Order;
-import app.services.data.CartProductTestData;
+import app.services.data.CartTestData;
 import app.services.data.OrderTestData;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,22 +23,22 @@ private CartProductMapper cartProductMapper;
 
     @Test
     void toEntity() {
-        CartProduct cartProductExpected = CartProductTestData.CART_PRODUCT_1;
-        CartProduct cartProduct = cartProductMapper.toEntity(CartProductTestData.CART_PRODUCT_DTO_1);
+        CartProduct cartProductExpected = CartTestData.CART_PRODUCT_1;
+        CartProduct cartProduct = cartProductMapper.toEntity(CartTestData.CART_PRODUCT_DTO_1);
         assertEquals(cartProductExpected.getCustomerId(),cartProduct.getCustomerId());
     }
 
     @Test
     void toDto() {
-        CartProductDto cartProductDtoExpected = CartProductTestData.CART_PRODUCT_DTO_1;
-        CartProductDto cartProductDto = cartProductMapper.toDto(CartProductTestData.CART_PRODUCT_1);
+        CartProductDto cartProductDtoExpected = CartTestData.CART_PRODUCT_DTO_1;
+        CartProductDto cartProductDto = cartProductMapper.toDto(CartTestData.CART_PRODUCT_1);
         assertEquals(cartProductDtoExpected.getCustomerId(),cartProductDto.getCustomerId());
     }
 
     @Test
     void toDtoList() {
-        List<CartProductDto> cartProductDtoListExpected = CartProductTestData.CART_PRODUCT_DTO_LIST;
-        List<CartProductDto>  cartProductDtoList = cartProductMapper.toDtoList(CartProductTestData.CART_PRODUCT_LIST);
+        List<CartProductDto> cartProductDtoListExpected = CartTestData.CART_PRODUCT_DTO_LIST;
+        List<CartProductDto>  cartProductDtoList = cartProductMapper.toDtoList(CartTestData.CART_PRODUCT_LIST);
         assertEquals(cartProductDtoListExpected.size(),cartProductDtoList.size());
     }
 }

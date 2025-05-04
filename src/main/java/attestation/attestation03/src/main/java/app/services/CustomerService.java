@@ -27,8 +27,6 @@ public class CustomerService{
 
     private final CustomerRepository customerRepository;
 
-    private final ObjectMapper objectMapper;
-
     public List<CustomerDto> getAll() {
         List<Customer> customers = customerRepository.findAll();
         return customerMapper.toDtoList(customers);
@@ -49,11 +47,12 @@ public class CustomerService{
         return customerMapper.toDto(customerRepository.findCustomerByEmail(email));
     }
 
-    public void changePassword(Long customerId, String password) {
+    public String changePassword(Long customerId, String password) {
         Customer customer = customerRepository.findById(customerId).orElseThrow(() ->
                 new NotFoundException("Покупатель с id `%s` не найден".formatted(customerId)));
         customer.setPassword(password);
         customerRepository.save(customer);
+        return "Пароль изменен";
     }
 
     public CustomerDto create(CustomerDto dto) {

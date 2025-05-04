@@ -1,18 +1,13 @@
 package app.services;
 
-import app.dto.CustomerDto;
+
 import app.dto.OrderDto;
-import app.dto.ProductDto;
 import app.exception.NotFoundException;
 import app.mapper.OrderMapper;
-import app.model.Customer;
 import app.model.Order;
-import app.model.Product;
 import app.repository.OrderProductRepository;
 import app.repository.OrderRepository;
-import app.services.data.CustomerTestData;
 import app.services.data.OrderTestData;
-import app.services.data.ProductTestData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -20,8 +15,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 

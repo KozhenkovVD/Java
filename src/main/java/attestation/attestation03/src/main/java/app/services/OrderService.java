@@ -27,8 +27,6 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    private final ObjectMapper objectMapper;
-
     private final OrderProductRepository orderProductRepository;
 
     public List<OrderDto> getAll() {
