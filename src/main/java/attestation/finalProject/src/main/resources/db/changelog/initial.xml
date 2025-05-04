@@ -105,5 +105,25 @@
                                  constraintName="FK_CART_PRODUCTS_LIST_ON_PRODUCT" referencedColumnNames="id"
                                  referencedTableName="products"/>
     </changeSet>
+    <changeSet id="1746042379174-9" author="KozhenkovVD (generated)">
+        <addForeignKeyConstraint baseColumnNames="customer_id" baseTableName="cart_products_list"
+                                 constraintName="FK_CART_PRODUCTS_LIST_ON_CUSTOMER" referencedColumnNames="id"
+                                 referencedTableName="customers"/>
+    </changeSet>
+    <changeSet id="1746042379174-10" author="KozhenkovVD (generated)">
+        <addForeignKeyConstraint baseColumnNames="order_id" baseTableName="order_product_list"
+                                 constraintName="FK_ORDER_PRODUCT_LIST_ON_ORDER" referencedColumnNames="id"
+                                 referencedTableName="orders"/>
+    </changeSet>
+    <changeSet id="1746042379174-11" author="KozhenkovVD (generated)">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="order_product_list"
+                                 constraintName="FK_ORDER_PRODUCT_LIST_ON_PRODUCT" referencedColumnNames="id"
+                                 referencedTableName="products"/>
+    </changeSet>
+    <changeSet id="1746042379174-12" author="KozhenkovVD (generated)">
+        <addForeignKeyConstraint baseColumnNames="customer_id" baseTableName="orders"
+                                 constraintName="FK_ORDERS_ON_CUSTOMER" referencedColumnNames="id"
+                                 referencedTableName="customers"/>
+    </changeSet>
 
 </databaseChangeLog>
